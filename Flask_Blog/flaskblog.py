@@ -12,7 +12,7 @@ posts = [
         'date_posted': 'April 20, 2018'
     },
     {
-        'author': 'Jane Doe',
+        'author': 'Dane Joe',
         'title': 'Blog Post 2',
         'content': 'Second post content',
         'date_posted': 'April 21, 2018'
@@ -54,3 +54,7 @@ def login():
 
 if __name__ == '__main__':
     app.run(debug=True)
+    
+
+
+    #TEST TEST TEST TEST
