@@ -3,6 +3,7 @@ from flask import Flask, render_template, url_for, flash, redirect
 from flask_login import login_required
 from flask_sqlalchemy import SQLAlchemy 
 from forms import RegistrationForm, LoginForm
+from werkzeug.security import generate_password_hash, check_password_hash
 from datetime import datetime
 from werkzeug.security import check_password_hash, generate_password_hash
 
@@ -20,6 +21,12 @@ class User(db.Model):
     password = db.Column(db.String(60), nullable=False)
     posts = db.relationship('Post', backref='author', lazy=True) #these have to be lowercase.
 
+    def set_password(self, pw):
+        self.password = generate_password_hash(pw)
+
+    def check_password(self, pw):
+        return check_password_hash(self.password, pw)
+            
     def __repr__(self):
         return f"USER('{self.username}', '{self.email}', '{self.image_file}')"
 
@@ -30,6 +37,8 @@ class Post(db.Model):
     date_posted = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)#i don't know if i want to use this time zone
     content = db.Column(db.Text, nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+
+
 
     def __repr__(self):
         return f"POST('{self.title}', '{self.date_posted}')" #one-to-many
