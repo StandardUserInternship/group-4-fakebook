@@ -1,6 +1,7 @@
 from enum import unique
 from flask import Flask, render_template, url_for, flash, redirect
 from flask_login import login_required
+from flask_login import LoginManager
 from flask_sqlalchemy import SQLAlchemy 
 from forms import RegistrationForm, LoginForm
 from werkzeug.security import generate_password_hash, check_password_hash
