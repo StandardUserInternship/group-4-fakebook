@@ -4,6 +4,7 @@ from flask_login import login_required
 from flask_sqlalchemy import SQLAlchemy 
 from forms import RegistrationForm, LoginForm
 from datetime import datetime
+from werkzeug.security import check_password_hash, generate_password_hash
 
 # Test Comment
 app = Flask(__name__)
@@ -65,6 +66,7 @@ def register():
     form = RegistrationForm()
     if form.validate_on_submit():
         flash(f'Account created for {form.username.data}!', 'success')
+        u = User(username=form.username.data)
         return redirect(url_for('home'))
     return render_template('register.html', title='Register', form=form)
 
