@@ -2,7 +2,7 @@ from enum import unique
 from flask import Flask, render_template, url_for, flash, redirect
 from flask_login import login_required, LoginManager, UserMixin, current_user, login_user
 from flask_sqlalchemy import SQLAlchemy 
-from forms import RegistrationForm, LoginForm
+from forms import RegistrationForm, LoginForm, PostForm
 from werkzeug.security import generate_password_hash, check_password_hash
 from datetime import datetime
 from werkzeug.security import check_password_hash, generate_password_hash
@@ -115,10 +115,11 @@ def login():
     
 
 @app.route("/admin", methods=['GET', 'POST'])
+
 @login_required
 def admin():
     form = LoginForm()
-    if form.validate_on_submit():
+    if form.validate_on_submit():#retieve "filter_all" user
         if form.email.data == 'admin@blog.com' and form.password.data == 'password':
             flash('Welcom, adminstrator', 'success')
             return redirect(url_for('home'))
@@ -133,3 +134,12 @@ def make_shell_context():
 
 if __name__ == '__main__':
     app.run(debug=True)
+
+#@app.route("/post/new", methods=['GET', 'POST'])
+#@login_required
+#def new_post():
+#    form = PostForm()
+#    if form.validate_on_submit():
+#        flash('Post successfully uploaded.', 'success')
+#        return redirect(url_for('home'))
+#    return render_template('create_post.html', title='New Post', form=form)
