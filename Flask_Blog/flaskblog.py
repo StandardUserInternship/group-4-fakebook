@@ -79,7 +79,7 @@ def register():
     if form.validate_on_submit():
         flash(f'Account created for {form.username.data}!', 'success')
         u = User(username=form.username.data)
-        u.set_password('password') 
+        u.set_password(form.password.data) 
         db.session.add()
         db.session.commit()
         return redirect(url_for('home'))
@@ -91,9 +91,9 @@ def login():
     form = LoginForm()
     if form.validate_on_submit():
         u = User(username=form.username.data)
-        u.check_password('password') 
-        if form.email.data == 'admin@blog.com' and form.password.data == 'password':
-            flash('You have been logged in!', 'success')
+        if User is u.check_password(form.password.data): 
+            if form.email.data == 'admin@blog.com' and form.password.data == 'password':
+                flash('You have been logged in!', 'success')
             return redirect(url_for('home'))
         else:
             flash('Login Unsuccessful. Please check username and password', 'danger')
