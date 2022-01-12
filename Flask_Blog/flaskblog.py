@@ -21,7 +21,7 @@ class User(db.Model):
     password = db.Column(db.String(60), nullable=False)
     posts = db.relationship('Post', backref='author', lazy=True) #these have to be lowercase.
 
-    def set_password(self, pw):
+    def set_password(self, pw): #register
         self.password = generate_password_hash(pw)
 
     def check_password(self, pw):
@@ -75,7 +75,8 @@ def register():
     form = RegistrationForm()
     if form.validate_on_submit():
         flash(f'Account created for {form.username.data}!', 'success')
-        u = User(username=form.username.data)
+        u = User(username=form.username.data, form.password.data)
+        u.set_password('password') 
         return redirect(url_for('home'))
     return render_template('register.html', title='Register', form=form)
 
@@ -90,6 +91,8 @@ def login():
         else:
             flash('Login Unsuccessful. Please check username and password', 'danger')
     return render_template('login.html', title='Login', form=form)
+
+
 
 @app.route("/admin", methods=['GET', 'POST'])
 @login_required
