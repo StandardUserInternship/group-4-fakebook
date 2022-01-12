@@ -1,7 +1,6 @@
 from enum import unique
 from flask import Flask, render_template, url_for, flash, redirect
-from flask_login import login_required
-from flask_login import LoginManager
+from flask_login import login_required, LoginManager, UserMixin
 from flask_sqlalchemy import SQLAlchemy 
 from forms import RegistrationForm, LoginForm
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -17,7 +16,7 @@ login_manager = LoginManager(app)
 login_manager.login_view = 'login'
 login_manager.login_message_category = 'info'
 
-class User(db.Model):
+class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(64), unique=True)
     email = db.Column(db.String(120), unique=True, nullable=False)
