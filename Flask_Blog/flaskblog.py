@@ -90,6 +90,8 @@ def register():
 def login():
     form = LoginForm()
     if form.validate_on_submit():
+        u = User(username=form.username.data)
+        u.check_password('password') 
         if form.email.data == 'admin@blog.com' and form.password.data == 'password':
             flash('You have been logged in!', 'success')
             return redirect(url_for('home'))
@@ -103,7 +105,7 @@ def login():
 @login_required
 def admin():
     form = LoginForm()
-    if form.validate_on_submit():
+    if form.validate_on_submit():#retieve "filter_all" user
         if form.email.data == 'admin@blog.com' and form.password.data == 'password':
             flash('Welcom, adminstrator', 'success')
             return redirect(url_for('home'))
