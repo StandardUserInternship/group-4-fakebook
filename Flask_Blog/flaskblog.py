@@ -15,11 +15,19 @@ db = SQLAlchemy(app)
 login_manager = LoginManager(app)
 login_manager.login_view = 'login'
 login_manager.login_message_category = 'info'
+''' this code needs a home for the login to work again
+from app import login
+
+@login.user_loader
+def load_user(id):
+    return User.query.get(int(id))
+'''
 
 class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(64), unique=True)
     email = db.Column(db.String(120), unique=True, nullable=False)
+#   admin = db.Column(db.String(129), unique=True, nulabble=False) doesn't work.
     image_file = db.Column(db.String(20), nullable=False, default='default.jpg')
     password = db.Column(db.String(60), nullable=False)
     posts = db.relationship('Post', backref='author', lazy=True) #these have to be lowercase.
@@ -60,7 +68,6 @@ posts = [
         'date_posted': 'April 21, 2018'
     }
 ]
-
 
 @app.route("/")
 @app.route("/home")
