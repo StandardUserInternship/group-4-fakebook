@@ -80,6 +80,8 @@ def register():
         flash(f'Account created for {form.username.data}!', 'success')
         u = User(username=form.username.data)
         u.set_password('password') 
+        db.session.add()
+        db.session.commit()
         return redirect(url_for('home'))
     return render_template('register.html', title='Register', form=form)
 
