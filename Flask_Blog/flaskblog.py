@@ -92,7 +92,7 @@ def login():
             flash('Login Unsuccessful. Please check username and password', 'danger')
     return render_template('login.html', title='Login', form=form)
 
-@app.route("/admin", methods=['GET', 'POST'])
+@app.route("/welcomeAdmin", methods=['GET', 'POST'])
 @login_required
 def admin():
     form = LoginForm()
